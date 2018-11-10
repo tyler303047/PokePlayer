@@ -12,10 +12,11 @@ MODEL = 'inference_graph'
 
 THIS_PATH = os.getcwd()
 
+#Paths
 CKPT_PATH = os.path.join(THIS_PATH, MODEL,'frozen_inference_graph.pb')
-
 LABEL_PATH = os.path.join(THIS_PATH,'training','labelmap.pbtxt')
 
+#Classes
 CLASSES = 2
 
 #Load label map
@@ -28,7 +29,6 @@ categories = label_map_util.convert_label_map_to_categories(label_map, max_num_c
 category_index = label_map_util.create_category_index(categories)
 
 #Get tensors
-
 #Input tensor is image
 image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
 
