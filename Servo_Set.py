@@ -5,34 +5,49 @@ from time import sleep
 def SetupServo():
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(3, GPIO.OUT)
-    pwm=GPIO.PWM(3,50)
-    pwm.start(0)
+    GPIO.setup(5, GPIO.OUT)
+    GPIO.setup(7, GPIO.OUT)
+    GPIO.setup(8, GPIO.OUT)
+    pwm = []
+    pwm.append(GPIO.PWM(3,50))
+    pwm.append(GPIO.PWM(5,50))
+    pwm.append(GPIO.PWM(7,50))
+    pwm.append(GPIO.PWM(8,50))
+##    pwm.start(0)
+    for p in pwm:
+        p.start(0)
     return pwm
 
 #function for setting angle on servo
-def SetAngle(pwm, angle):
+def SetAngle(pwm, angle, pin):
     print(angle)
     duty = angle / 18 + 2
-    GPIO.output(3, True)
+    GPIO.output(pin, True)
     pwm.ChangeDutyCycle(duty)
     sleep(1)
-    GPIO.output(3,False)
+    GPIO.output(pin,False)
     pwm.ChangeDutyCycle(0)
 
 def A_Press(pwm):
-    SetAngle(pwm, 115)
-    SetAngle(pwm, 100)
+    SetAngle(pwm[0], 115, 3)
+    SetAngle(pwm[0], 100, 3)
 
 def L_Press(pwm):
-    SetAngle(pwm, 5)
-    SetAngle(pwm, 40)
+    SetAngle(pwm[1], 5, 5)
+    SetAngle(pwm[1], 40, 5)
 
 def R_Press(pwm):
-    SetAngle(pwm, 80)
-    SetAngle(pwm, 40)
+    SetAngle(pwm[2], 80, 7)
+    SetAngle(pwm[2], 40, 7)
+
+def D_Press(pwm):
+    SetAngle(pwm[3], 80, 8)
+    SetAngle(pwm[3], 40, 8)
 
 def ServoEnd(pwm):
-    pwm.stop()
+##    pwm.stop()
+    for p in pwm:
+        p.stop()
     GPIO.cleanup()
 
 #pwm = SetupServo()
